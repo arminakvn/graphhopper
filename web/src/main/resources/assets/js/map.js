@@ -267,13 +267,13 @@ module.exports.addElevation = function (geoJsonFeature, useMiles) {
         elevationControl = L.control.elevation({
             position: "bottomright",
             theme: "white-theme", //default: lime-theme
-            width: 450,
-            height: 125,
+            width: 250,
+            height: 50,
             margins: {
-                top: 10,
-                right: 20,
-                bottom: 30,
-                left: 60
+                top: 3,
+                right: 4,
+                bottom: 4,
+                left: 40
             },
             useHeightIndicator: true, //if false a marker is drawn at map position
             interpolation: "linear", //see https://github.com/mbostock/d3/wiki/SVG-Shapes#wiki-area_interpolate

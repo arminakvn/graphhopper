@@ -63,6 +63,9 @@ var osmde = L.tileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y
     attribution: osmAttr
 });
 
+var mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXJtaW5hdm4iLCJhIjoiSTFteE9EOCJ9.iDzgmNaITa0-q-H_jw1lJw', {
+    attribution: 'mapbox'
+});
 var mapLink = '<a href="http://www.esri.com/">Esri</a>';
 var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var esriAerial = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -72,7 +75,7 @@ var esriAerial = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/servic
 
 var availableTileLayers = {
     "Omniscale": omniscale,
-    "OpenStreetMap": osm,
+    // "OpenStreetMap": osm,
     "Esri Aerial": esriAerial,
     "TF Transport": thunderTransport,
     "TF Cycle": thunderCycle,
@@ -82,11 +85,12 @@ var availableTileLayers = {
     "WanderReitKarte": wrk,
     "OpenMapSurfer": openMapSurfer,
     "Sorbian Language": sorbianLang,
-    "OpenStreetMap.de": osmde
+    "OpenStreetMap.de": osmde,
+    'Mapbox tile': mapbox
 };
 
-module.exports.activeLayerName = "Omniscale";
-module.exports.defaultLayer = omniscale;
+module.exports.activeLayerName = "Mapbox tile";
+module.exports.defaultLayer = mapbox;
 
 module.exports.getAvailableTileLayers = function () {
     return availableTileLayers;
