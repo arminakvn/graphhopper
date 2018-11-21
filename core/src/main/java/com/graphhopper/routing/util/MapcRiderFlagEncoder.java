@@ -63,7 +63,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
 
 
         preferHighwayTags.add("road");
-//        preferHighwayTags.add("secondary_link");
+        preferHighwayTags.add("secondary_link");
         preferHighwayTags.add("tertiary_link");
         preferHighwayTags.add("track");
 
@@ -186,12 +186,20 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         }
 
 
-        if  (way.hasTag("cycleway", "no") || way.hasTag("cycleway")!=true ){
-            weightToPrioMap.put(110d, AVOID_IF_POSSIBLE.getValue());
+        if  (way.hasTag("cycleway", "no") ){
+            weightToPrioMap.put(44d, AVOID_IF_POSSIBLE.getValue());
 
 
         }
 
+
+        if ("residential".equals(highway)!=true){
+            if  (way.hasTag("cycleway", "no") || way.hasTag("cycleway")!=true){
+                weightToPrioMap.put(110d, AVOID_AT_ALL_COSTS.getValue());
+
+
+            }
+        }
 //        if the highway doesn't have any bike lanes then avoid
 
 

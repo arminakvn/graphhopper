@@ -39,14 +39,14 @@ graphhopper:
   # graph but less for every request. You can also setup multiple weightings, by providing a comma separated list.
   prepare.ch.weightings: fastest
 
-  prepare.ch.landmarks: 8
+  prepare.ch.landmarks: 16
   # Disable the speed mode. Should be used only with routing.max_visited_nodes or when the hybrid mode is enabled instead
 #  prepare.ch.weightings: no
 
 
   # To make CH preparation faster for multiple flagEncoders you can increase the default threads if you have enough RAM.
   # Change this setting only if you know what you are doing and if the default worked for you.
-  prepare.ch.threads: 1
+  prepare.ch.threads: 2
 
 
   # The hybrid mode can be enabled with
