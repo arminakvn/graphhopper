@@ -29,7 +29,7 @@ import com.graphhopper.util.PMap;
  */
 public class BikeFlagEncoder extends BikeCommonFlagEncoder {
     public BikeFlagEncoder() {
-        this(4, 2, 0);
+        this(4, 1, 0);
     }
 
     public BikeFlagEncoder(String propertiesString) {
@@ -38,7 +38,7 @@ public class BikeFlagEncoder extends BikeCommonFlagEncoder {
 
     public BikeFlagEncoder(PMap properties) {
         this((int) properties.getLong("speed_bits", 4),
-                properties.getLong("speed_factor", 2),
+                properties.getLong("speed_factor", 1),
                 properties.getBool("turn_costs", false) ? 1 : 0);
         this.properties = properties;
         this.setBlockFords(properties.getBool("block_fords", true));
@@ -70,6 +70,7 @@ public class BikeFlagEncoder extends BikeCommonFlagEncoder {
 
         init();
     }
+
 
     @Override
     public int getVersion() {

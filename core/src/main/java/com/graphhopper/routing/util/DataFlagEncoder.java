@@ -257,6 +257,11 @@ public class DataFlagEncoder extends AbstractFlagEncoder {
         return hwValue;
     }
 
+    public String getSurfaceTypes(ReaderWay way) {
+        String s = way.getTag("surface");
+        return s;
+    }
+
     int getAccessValue(ReaderWay way) {
         int accessValue = 0;
         Integer tmpAccessValue;

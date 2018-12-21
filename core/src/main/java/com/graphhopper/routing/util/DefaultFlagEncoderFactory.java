@@ -66,6 +66,13 @@ public class DefaultFlagEncoderFactory implements FlagEncoderFactory {
         if (name.equals(MAPCRIDER))
             return new MapcRiderFlagEncoder(configuration);
 
+        if (name.equals(MAPCRIDER2))
+
+            return new MapcRider2WeightFlagEncoder(configuration);
+        if (name.equals(DATA))
+
+            return new DataFlagEncoder(configuration);
+
         throw new IllegalArgumentException("entry in encoder list not supported " + name);
     }
 }

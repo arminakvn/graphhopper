@@ -31,7 +31,7 @@ import static com.graphhopper.routing.util.PriorityCode.*;
  * @author ratrun
  * @author Peter Karich
  */
-public class MapcBikeFlagEncoder extends BikeCommonFlagEncoder {
+public class MapcBikeFlagEncoder extends Bike2WeightFlagEncoder {
     public MapcBikeFlagEncoder() {
         this(4, 2, 0);
     }

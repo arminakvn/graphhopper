@@ -36,6 +36,8 @@ public interface FlagEncoderFactory {
     final String MAPCBIKE = "mapcbike";
     final String SECONDMAPCBIKE = "mapcbike2";
     final String MAPCRIDER = "mapcrider";
+    final String MAPCRIDER2 = "mapcrider2";
+    final String DATA = "data";
 
 
     final FlagEncoderFactory DEFAULT = new DefaultFlagEncoderFactory();

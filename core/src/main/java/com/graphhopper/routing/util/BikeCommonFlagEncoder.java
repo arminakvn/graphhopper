@@ -434,6 +434,10 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
 
         return speed;
     }
+    public String getSurfaceTypes(ReaderWay way) {
+        String s = way.getTag("surface");
+        return s;
+    }
 
     @Override
     public InstructionAnnotation getAnnotation(long flags, Translation tr) {

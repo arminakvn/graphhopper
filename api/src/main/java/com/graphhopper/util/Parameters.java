@@ -198,6 +198,10 @@ public class Parameters {
         public static final String EDGE_ID = "edge_id";
         public static final String TIME = "time";
         public static final String DISTANCE = "distance";
+        public static final String ROAD_CLASS = "road_class";
+        public static final String SURFACE = "surface";
+        public static final String WEIGHT_VALUE = "weight_value";
+        public static final String FACILITIES_OVERAL = "facilities_overal";
     }
 
     public static final class PT {

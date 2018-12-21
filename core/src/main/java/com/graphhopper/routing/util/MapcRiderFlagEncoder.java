@@ -34,13 +34,13 @@ import static com.graphhopper.routing.util.PriorityCode.*;
 public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
     final Set<String> safeHighwayTags = new HashSet<>();
     public MapcRiderFlagEncoder() {
-        this(4, 2, 0);
+        this(5, 1, 0);
     }
 
     public MapcRiderFlagEncoder(PMap properties) {
         this(
-                (int) properties.getLong("speed_bits", 4),
-                properties.getDouble("speed_factor", 2),
+                (int) properties.getLong("speed_bits", 5),
+                properties.getDouble("speed_factor", 1),
                 properties.getBool("turn_costs", false) ? 1 : 0
         );
         this.properties = properties;
@@ -135,7 +135,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         setCyclingNetworkPreference("ncn", PriorityCode.BEST.getValue());
         setCyclingNetworkPreference("rcn", PriorityCode.VERY_NICE.getValue());
         setCyclingNetworkPreference("lcn", PriorityCode.PREFER.getValue());
-        setCyclingNetworkPreference("mtb", PriorityCode.PREFER.getValue());
+        setCyclingNetworkPreference("mtb", PriorityCode.UNCHANGED.getValue());
 
         absoluteBarriers.add("kissing_gate");
 
@@ -153,6 +153,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
     @Override
     void collect(ReaderWay way, double wayTypeSpeed, TreeMap<Double, Integer> weightToPrioMap) {
         super.collect(way, wayTypeSpeed, weightToPrioMap);
+        String service = way.getTag("service");
         String cycleway = way.getTag("cycleway");
 
         String highway = way.getTag("highway");
@@ -168,17 +169,17 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
 //            String foot = way.getTag("foot");
             Boolean hasFoot = way.hasTag("foot");
             System.out.println("hasFoot   "+hasFoot);
-//            String footway = way.getTag("footway");
+//            String footway = way.getTag("footway");x
             if(hasFoot){
-                weightToPrioMap.put(44d, PREFER.getValue());
+                weightToPrioMap.put(34d, PREFER.getValue());
             } else {
                 weightToPrioMap.put(44d, VERY_NICE.getValue());
             }
-            weightToPrioMap.put(44d, BEST.getValue());
+//            weightToPrioMap.put(44d, BEST.getValue());
 
         }
 
-        if  (way.hasTag("cycleway", "lane")){
+        if  (way.hasTag("cycleway", "lane") || (way.hasTag("cycleway:right", "lane")) || (way.hasTag("cycleway:left", "lane"))){
 //            String foot = way.getTag("foot");
             weightToPrioMap.put(44d, PREFER.getValue());
 
@@ -195,7 +196,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
 
         if ("residential".equals(highway)!=true){
             if  (way.hasTag("cycleway", "no") || way.hasTag("cycleway")!=true){
-                weightToPrioMap.put(110d, AVOID_AT_ALL_COSTS.getValue());
+                weightToPrioMap.put(44d, AVOID_AT_ALL_COSTS.getValue());
 
 
             }
@@ -212,7 +213,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         }
 
         if (way.hasTag("bicycle", "official") || way.hasTag("bicycle", "designated"))
-            weightToPrioMap.put(44d, PREFER.getValue());
+            weightToPrioMap.put(44d, UNCHANGED.getValue());
         if ("service".equals(highway)) {
             weightToPrioMap.put(40d, UNCHANGED.getValue());
         } else if ("track".equals(highway)) {
@@ -220,10 +221,26 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
             if ("grade1".equals(trackType))
                 weightToPrioMap.put(110d, BEST.getValue());
             else if (trackType == null || trackType.startsWith("grade"))
-                weightToPrioMap.put(110d, REACH_DEST.getValue());
-            else {
                 weightToPrioMap.put(110d, PREFER.getValue());
+            else {
+                weightToPrioMap.put(110d, VERY_NICE.getValue());
             }
+        }
+
+        if (pushingSectionsHighways.contains(highway)
+                || way.hasTag("bicycle", "use_sidepath")
+                || "parking_aisle".equals(service)) {
+            int pushingSectionPrio = AVOID_IF_POSSIBLE.getValue();
+            if (way.hasTag("bicycle", "yes") || way.hasTag("bicycle", "permissive"))
+                pushingSectionPrio = UNCHANGED.getValue();
+            if (way.hasTag("bicycle", "designated") || way.hasTag("bicycle", "official"))
+                pushingSectionPrio = VERY_NICE.getValue();
+            if (way.hasTag("foot", "yes")) {
+                pushingSectionPrio = Math.max(pushingSectionPrio - 1, WORST.getValue());
+                if (way.hasTag("segregated", "yes"))
+                    pushingSectionPrio = Math.min(pushingSectionPrio + 1, BEST.getValue());
+            }
+            weightToPrioMap.put(100d, pushingSectionPrio);
         }
     }
 

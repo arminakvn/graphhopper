@@ -16,7 +16,6 @@
  *  limitations under the License.
  */
 package com.graphhopper.http;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

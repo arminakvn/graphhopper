@@ -41,6 +41,9 @@ public class PathDetailsBuilderFactory {
         if (requestedPathDetails.contains(STREET_NAME))
             builders.add(new StreetNameDetails());
 
+        if (requestedPathDetails.contains(SURFACE))
+            builders.add(new SurfaceDetails());
+
         if (requestedPathDetails.contains(EDGE_ID))
             builders.add(new EdgeIdDetails());
 
@@ -50,6 +53,11 @@ public class PathDetailsBuilderFactory {
         if (requestedPathDetails.contains(DISTANCE))
             builders.add(new DistanceDetails());
 
+        if (requestedPathDetails.contains(WEIGHT_VALUE))
+            builders.add(new WeightDetails(weighting));
+
+        if (requestedPathDetails.contains(FACILITIES_OVERAL))
+            builders.add(new WeightDetails(weighting));
         if (requestedPathDetails.size() != builders.size()) {
             throw new IllegalArgumentException("You requested the details " + requestedPathDetails + " but we could only find " + builders);
         }
