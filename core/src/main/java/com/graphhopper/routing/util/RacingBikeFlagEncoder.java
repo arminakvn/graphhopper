@@ -18,6 +18,7 @@
 package com.graphhopper.routing.util;
 
 import com.graphhopper.reader.ReaderWay;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 
 import java.util.TreeMap;
@@ -134,6 +135,32 @@ public class RacingBikeFlagEncoder extends BikeCommonFlagEncoder {
     public int getVersion() {
         return 2;
     }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public String getHighwayAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
+    @Override
+    public int getSurface(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getSurfaceAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
 
     @Override
     void collect(ReaderWay way, double wayTypeSpeed, TreeMap<Double, Integer> weightToPrioMap) {

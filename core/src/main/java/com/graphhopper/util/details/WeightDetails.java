@@ -17,6 +17,7 @@
  */
 package com.graphhopper.util.details;
 
+import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.util.EdgeIteratorState;
 
@@ -31,21 +32,45 @@ import static com.graphhopper.util.Parameters.DETAILS.WEIGHT_VALUE;
 public class WeightDetails extends AbstractPathDetailsBuilder {
 
     private final Weighting weighting;
+    private final FlagEncoder encoder;
 
     private int edgeId = -1;
     private long time = 0;
     private double weight = 0;
 
-    public WeightDetails(Weighting weighting) {
+    public WeightDetails(Weighting weighting, FlagEncoder encoder) {
         super(WEIGHT_VALUE);
         this.weighting = weighting;
+        this.encoder = encoder;
     }
 
     @Override
     public boolean isEdgeDifferentToLastEdge(EdgeIteratorState edge) {
         if (edge.getEdge() != edgeId) {
             edgeId = edge.getEdge();
+            long fs = edge.getFlags();
+
+
+//            encoder.getLong(fs,2);
+
+            String stname = edge.getName();
+//            edge./
+            double ds = edge.getDistance();
+//            edge.getFlags(g)
+            long time = weighting.calcMillis(edge, false, -1);
+//            encoder.getLong(fs,)
+            System.out.println("fs   flags value"+ fs );
+            System.out.println("fs   "+ " encoder.getSpeed(fs)  + encoder.getSurfaceAsString(fs): "+ encoder.getSpeed(fs) + encoder.getSurfaceAsString(fs) +"getHighwayAsString:   "  +  encoder.getHighwayAsString(edge));
+//            encoder.ge
+//            System.out.println("fs   "+ " flag value for the edge with street name " + stname + " is " + fs + "the surface is" + encoder.getSurfaceAsString(fs)+encoder.getSurface(fs));
+            System.out.println("fs   "+ " distance value for the edge is "+ ds );
+//            System.out.println("get longs" + encoder.getLong(fs,-1));
+
+//            FlagEncoder f = weighting.getFlagEncoder();
             weight = weighting.calcWeight(edge,false,-1);
+            System.out.println("fs   "+ " weight is calculated for the edge is "+ weight+ " and time is " + time );
+
+
 //            time = weighting.calcMillis(edge, false, -1);
             return true;
         }

@@ -17,6 +17,8 @@
  */
 package com.graphhopper.routing.util;
 
+import com.graphhopper.reader.ReaderWay;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.InstructionAnnotation;
 import com.graphhopper.util.Translation;
 
@@ -48,6 +50,9 @@ public interface FlagEncoder extends TurnCostEncoder {
      * @return the speed in km/h for this direction, for backward direction use getReverseSpeed
      */
     double getSpeed(long flags);
+
+//    double getSurface(long flags);
+//    long setSurface(long flags, long surface);
 
     /**
      * Sets the speed in km/h.
@@ -138,4 +143,14 @@ public interface FlagEncoder extends TurnCostEncoder {
      * @return true if already registered in an EncodingManager
      */
     boolean isRegistered();
+
+//getHighwayAsString
+    String getSurfaceAsString(long flags);
+    String getHighwayAsString(EdgeIteratorState edge);
+
+    int getSurface(EdgeIteratorState edge);
+
+    int getSurface(long flags);
+
+    String getSurfaceAsString(EdgeIteratorState edge);
 }

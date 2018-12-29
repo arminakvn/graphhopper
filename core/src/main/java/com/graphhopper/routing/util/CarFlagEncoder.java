@@ -19,6 +19,7 @@ package com.graphhopper.routing.util;
 
 import com.graphhopper.reader.ReaderRelation;
 import com.graphhopper.reader.ReaderWay;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Helper;
 import com.graphhopper.util.PMap;
 
@@ -150,6 +151,32 @@ public class CarFlagEncoder extends AbstractFlagEncoder {
     public int getVersion() {
         return 1;
     }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public String getHighwayAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
+    @Override
+    public int getSurface(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getSurfaceAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
 
     /**
      * Define the place of the speedBits in the edge flags for car.

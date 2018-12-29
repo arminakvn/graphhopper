@@ -18,6 +18,7 @@
 package com.graphhopper.routing.util;
 
 import com.graphhopper.reader.ReaderWay;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 
 import java.util.*;
@@ -47,9 +48,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         this.setBlockFords(properties.getBool("block_fords", true));
     }
 
-    public MapcRiderFlagEncoder(String propertiesStr) {
-        this(new PMap(propertiesStr));
-    }
+
 
     public MapcRiderFlagEncoder(int speedBits, double speedFactor, int maxTurnCosts) {
         super(speedBits, speedFactor, maxTurnCosts);
@@ -148,6 +147,31 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
     @Override
     public int getVersion() {
         return 2;
+    }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public String getHighwayAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
+    @Override
+    public int getSurface(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getSurfaceAsString(EdgeIteratorState edge) {
+        return null;
     }
 
     @Override
@@ -259,6 +283,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         // for racing bike it is only allowed if empty
         return false;
     }
+
 
     @Override
     public String toString() {

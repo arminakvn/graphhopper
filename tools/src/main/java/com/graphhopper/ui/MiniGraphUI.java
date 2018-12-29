@@ -84,9 +84,9 @@ public class MiniGraphUI {
     public MiniGraphUI(GraphHopper hopper, boolean debug) {
         final Graph graph = hopper.getGraphHopperStorage();
         this.na = graph.getNodeAccess();
-        encoder = hopper.getEncodingManager().getEncoder("car");
+        encoder = hopper.getEncodingManager().getEncoder("mapcrider2");
         HintsMap map = new HintsMap("fastest").
-                setVehicle("car");
+                setVehicle("mapcrider2");
 
         boolean ch = true;
         if (ch) {

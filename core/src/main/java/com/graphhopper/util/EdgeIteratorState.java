@@ -135,4 +135,6 @@ public interface EdgeIteratorState {
      * @return the specified edge e
      */
     EdgeIteratorState copyPropertiesTo(EdgeIteratorState e);
+
+//    String getSurface(FlagEncoder encoder);
 }

@@ -16,7 +16,6 @@
  *  limitations under the License.
  */
 package com.graphhopper.routing.template;
-
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.PathWrapper;

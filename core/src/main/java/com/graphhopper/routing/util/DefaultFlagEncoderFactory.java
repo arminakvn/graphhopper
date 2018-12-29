@@ -57,8 +57,8 @@ public class DefaultFlagEncoderFactory implements FlagEncoderFactory {
         if (name.equals(MOTORCYCLE))
             return new MotorcycleFlagEncoder(configuration);
 
-        if (name.equals(MAPCBIKE))
-            return new MapcBikeFlagEncoder(configuration);
+//        if (name.equals(MAPCBIKE))
+//            return new MapcBikeFlagEncoder(configuration);
 
         if (name.equals(SECONDMAPCBIKE))
             return new SecondMapcBikeFlagEncoder(configuration);

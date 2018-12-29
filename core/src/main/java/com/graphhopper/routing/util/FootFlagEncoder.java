@@ -20,6 +20,7 @@ package com.graphhopper.routing.util;
 import com.graphhopper.reader.ReaderRelation;
 import com.graphhopper.reader.ReaderWay;
 import com.graphhopper.routing.weighting.PriorityWeighting;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 
 import java.util.*;
@@ -372,6 +373,31 @@ public class FootFlagEncoder extends AbstractFlagEncoder {
             return true;
 
         return PriorityWeighting.class.isAssignableFrom(feature);
+    }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public String getHighwayAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
+    @Override
+    public int getSurface(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getSurfaceAsString(EdgeIteratorState edge) {
+        return null;
     }
 
     @Override

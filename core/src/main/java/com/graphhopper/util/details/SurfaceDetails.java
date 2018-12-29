@@ -38,7 +38,7 @@ public class SurfaceDetails extends AbstractPathDetailsBuilder {
     @Override
     public boolean isEdgeDifferentToLastEdge(EdgeIteratorState edge) {
         if (curSurface == null || !curSurface.equals(edge.getName())) {
-            curSurface = edge.getName();
+//            curSurface = edge.getSurface();
             return true;
         }
         return false;

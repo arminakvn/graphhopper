@@ -54,10 +54,10 @@ public class PathDetailsBuilderFactory {
             builders.add(new DistanceDetails());
 
         if (requestedPathDetails.contains(WEIGHT_VALUE))
-            builders.add(new WeightDetails(weighting));
+            builders.add(new WeightDetails(weighting,encoder));
 
         if (requestedPathDetails.contains(FACILITIES_OVERAL))
-            builders.add(new WeightDetails(weighting));
+            builders.add(new FacilitiesOveralDetails(encoder));
         if (requestedPathDetails.size() != builders.size()) {
             throw new IllegalArgumentException("You requested the details " + requestedPathDetails + " but we could only find " + builders);
         }

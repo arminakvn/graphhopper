@@ -20,6 +20,7 @@ package com.graphhopper.routing.util;
 import com.graphhopper.reader.ReaderRelation;
 import com.graphhopper.reader.ReaderWay;
 import com.graphhopper.routing.weighting.PriorityWeighting;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Helper;
 import com.graphhopper.util.InstructionAnnotation;
 import com.graphhopper.util.Translation;
@@ -43,6 +44,7 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
     public static final int K_UNPAVED = 100;
     protected static final int PUSHING_SECTION_SPEED = 4;
     // Pushing section heighways are parts where you need to get off your bike and push it (German: Schiebestrecke)
+    private final Map<String, Integer> surfaceMap = new HashMap<>();
     protected final HashSet<String> pushingSectionsHighways = new HashSet<>();
     protected final HashSet<String> oppositeLanes = new HashSet<>();
     protected final Set<String> preferHighwayTags = new HashSet<>();
@@ -55,6 +57,7 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
     // convert network tag of bicycle routes into a way route code
     private final Map<String, Integer> bikeNetworkToCode = new HashMap<>();
     protected EncodedValue relationCodeEncoder;
+    private EncodedValue surfaceEncoder;
     EncodedValue priorityWayEncoder;
     private long unpavedBit = 0;
     private EncodedValue wayTypeEncoder;
@@ -195,6 +198,12 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
         setCyclingNetworkPreference("mtb", UNCHANGED.getValue());
 
         setCyclingNetworkPreference("deprecated", AVOID_AT_ALL_COSTS.getValue());
+        List<String> surfaceList = Arrays.asList("_default", "asphalt", "unpaved", "paved", "gravel",
+                "ground", "dirt", "grass", "concrete", "paving_stones", "sand", "compacted", "cobblestone", "mud", "ice");
+        int counter = 0;
+        for (String s : surfaceList) {
+            surfaceMap.put(s, counter++);
+        }
 
         setAvoidSpeedLimit(71);
     }
@@ -350,6 +359,11 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
 
         long flags = 0;
         double wayTypeSpeed = getSpeed(way);
+        String surfaceValue = way.getTag("surface");
+        Integer sValue = surfaceMap.get(surfaceValue);
+        if (sValue == null)
+            sValue = 0;
+
         if (!isFerry(allowed)) {
             wayTypeSpeed = applyMaxSpeed(way, wayTypeSpeed);
             flags = handleSpeed(way, wayTypeSpeed, flags);
@@ -702,6 +716,10 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
         }
         return encoded;
     }
+
+
+
+
 
     protected void setHighwaySpeed(String highway, int speed) {
         highwaySpeeds.put(highway, speed);

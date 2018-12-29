@@ -256,7 +256,6 @@ public class DataFlagEncoder extends AbstractFlagEncoder {
         }
         return hwValue;
     }
-
     public String getSurfaceTypes(ReaderWay way) {
         String s = way.getTag("surface");
         return s;
@@ -595,6 +594,11 @@ public class DataFlagEncoder extends AbstractFlagEncoder {
         return (int) surfaceEncoder.getValue(edge.getFlags());
     }
 
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
     public String getSurfaceAsString(EdgeIteratorState edge) {
         int val = getSurface(edge);
         for (Entry<String, Integer> e : surfaceMap.entrySet()) {
@@ -829,6 +833,11 @@ public class DataFlagEncoder extends AbstractFlagEncoder {
         }
 
         return super.getAnnotation(flags, tr);
+    }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        return null;
     }
 
 

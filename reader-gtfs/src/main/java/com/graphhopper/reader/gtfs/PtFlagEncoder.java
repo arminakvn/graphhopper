@@ -23,6 +23,7 @@ import com.graphhopper.reader.ReaderWay;
 import com.graphhopper.routing.util.AbstractFlagEncoder;
 import com.graphhopper.routing.util.EncodedDoubleValue;
 import com.graphhopper.routing.util.EncodedValue;
+import com.graphhopper.util.EdgeIteratorState;
 
 public class PtFlagEncoder extends AbstractFlagEncoder {
 
@@ -110,5 +111,30 @@ public class PtFlagEncoder extends AbstractFlagEncoder {
 	@Override
 	public int getVersion() {
 		return 0;
+	}
+
+	@Override
+	public String getSurfaceAsString(long flags) {
+		return null;
+	}
+
+    @Override
+    public String getHighwayAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
+    @Override
+	public int getSurface(EdgeIteratorState edge) {
+		return 0;
+	}
+
+    @Override
+    public int getSurface(long flags) {
+        return 0;
+    }
+
+    @Override
+	public String getSurfaceAsString(EdgeIteratorState edge) {
+		return null;
 	}
 }

@@ -30,7 +30,7 @@ import static com.graphhopper.util.Parameters.DETAILS.FACILITIES_OVERAL;
 public class FacilitiesOveralDetails extends AbstractPathDetailsBuilder {
 
     private final FlagEncoder encoder;
-    private String facilitiesOverals = "";
+    private String facilitiesOverals = null;
 
     public FacilitiesOveralDetails(FlagEncoder encoder) {
         super(FACILITIES_OVERAL);
@@ -39,7 +39,8 @@ public class FacilitiesOveralDetails extends AbstractPathDetailsBuilder {
 
     @Override
     public boolean isEdgeDifferentToLastEdge(EdgeIteratorState edge) {
-//        String facils = encoder.getAnnotation(edge.getFlags());
+//        String facils = encoder();
+        this.facilitiesOverals = this.encoder.getSurfaceAsString(edge.getFlags()) + " | " + this.encoder.getHighwayAsString(edge);
         return true;
     }
 

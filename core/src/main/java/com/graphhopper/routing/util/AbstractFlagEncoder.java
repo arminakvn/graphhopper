@@ -63,6 +63,7 @@ public abstract class AbstractFlagEncoder implements FlagEncoder, TurnCostEncode
     protected long directionBitMask;
     protected long roundaboutBit;
     protected EncodedDoubleValue speedEncoder;
+    protected EncodedDoubleValue surfaceEncoder;
     // bit to signal that way is accepted
     protected long acceptBit;
     protected long ferryBit;
@@ -307,10 +308,27 @@ public abstract class AbstractFlagEncoder implements FlagEncoder, TurnCostEncode
         return speedEncoder.setDoubleValue(flags, speed);
     }
 
+    public long setSurface(long flags, long surface) {
+        if (surface < 0 || Double.isNaN(surface))
+            throw new IllegalArgumentException("surface cannot be negative or NaN: " + surface
+                    + ", flags:" + BitUtil.LITTLE.toBitString(flags));
+
+        return surfaceEncoder.setDoubleValue(flags, surface);
+    }
+
     protected long setLowSpeed(long flags, double speed, boolean reverse) {
         return setAccess(speedEncoder.setDoubleValue(flags, 0), false, false);
     }
 
+//    @Override
+//    public double getSurface(long flags) {
+////        double surfaceVal = surfaceEncoder.getDoubleValue(flags);
+////        System.out.println("surface value "+surfaceVal);
+////        if (surfaceVal < 0)
+////            throw new IllegalStateException("Speed was negative!? " + surfaceVal);
+//
+//        return surfaceVal;
+//    }
     @Override
     public double getSpeed(long flags) {
         double speedVal = speedEncoder.getDoubleValue(flags);
