@@ -201,7 +201,9 @@
                                         d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
                                                 let event_from_id = event[0];
                                                 let event_to_id = event[1];
-                                                let aver_spd = "segment ave speed: "
+                                                let aver_spd = "sp="
+                                                let foevent = "f="
+
                                                 // find the average_speed interval and get the value of that
                                                 // for each interval pair from the average_speeds details check the events from and to id
                                                 d[joz]["paths"][i]["details"]["average_speed"].forEach(function (a_s_event) {
@@ -210,6 +212,20 @@
                                                         if (event_from_id >= from_id && event_from_id <= to_id){
                                                                 if (event_to_id >=from_id && event_to_id <= to_id){
                                                                         aver_spd = aver_spd + a_s_event[2]
+                                                                        // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
+
+                                                                }
+                                                        }
+                                                })
+
+
+                                                d[joz]["paths"][i]["details"]["facilities_overal"].forEach(function (f_s_event) {
+                                                        let from_id = f_s_event[0]
+                                                        let to_id = f_s_event[1]
+
+                                                        if (event_from_id >= from_id && event_from_id <= to_id){
+                                                                if (event_to_id >=from_id && event_to_id <= to_id){
+                                                                        foevent = foevent + f_s_event[2]
                                                                         // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
 
                                                                 }
@@ -229,7 +245,7 @@
                                                                         'color': color(i),
                                                                         'width': lineScale(weight_val),
                                                                         'opacity': 0.7,
-                                                                        'title': "weight: " + Math.round(weight_val)
+                                                                        'title': "w=" + Math.round(weight_val)+aver_spd+foevent
 
                                                                 },
                                                                 'geometry':{

@@ -96,20 +96,20 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         preferHighwayTags.add("track");
 
 
-        safeHighwayTags.add("residential");
+//        safeHighwayTags.add("residential");
         safeHighwayTags.add("track");
         safeHighwayTags.add("cycle_track");
         safeHighwayTags.add("cycleway");
 
 
-        setTrackTypeSpeed("grade1", 18); // paved
-        setTrackTypeSpeed("grade2", 15); // now unpaved ...
+        setTrackTypeSpeed("grade1", 20); // paved
+        setTrackTypeSpeed("grade2", 18); // now unpaved ...
         setTrackTypeSpeed("grade3", PUSHING_SECTION_SPEED);
         setTrackTypeSpeed("grade4", PUSHING_SECTION_SPEED);
         setTrackTypeSpeed("grade5", PUSHING_SECTION_SPEED);
 
-        setSurfaceSpeed("paved", 18);
-        setSurfaceSpeed("asphalt", 16);
+        setSurfaceSpeed("paved", 20);
+        setSurfaceSpeed("asphalt", 20);
         setSurfaceSpeed("cobblestone", 10);
         setSurfaceSpeed("cobblestone:flattened", 10);
         setSurfaceSpeed("sett", 10);
@@ -136,14 +136,14 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         setSurfaceSpeed("wood", PUSHING_SECTION_SPEED );
 
         setHighwaySpeed("cycleway", 18);
-        setHighwaySpeed("path", 14);
+        setHighwaySpeed("path", 16);
         setHighwaySpeed("footway", 10);
         setHighwaySpeed("pedestrian", 10);
         setHighwaySpeed("road", 14);
         setHighwaySpeed("track", PUSHING_SECTION_SPEED ); // assume unpaved
         setHighwaySpeed("service", 12);
         setHighwaySpeed("unclassified", 14);
-        setHighwaySpeed("residential", 12);
+        setHighwaySpeed("residential", PUSHING_SECTION_SPEED);
 
         setHighwaySpeed("trunk", 15);
         setHighwaySpeed("trunk_link", 15);
@@ -168,7 +168,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         absoluteBarriers.add("kissing_gate");
 
         setAvoidSpeedLimit(81);
-        setSpecificClassBicycle("mapcrider");
+        setSpecificClassBicycle("mapcrider2");
 
         init();
     }

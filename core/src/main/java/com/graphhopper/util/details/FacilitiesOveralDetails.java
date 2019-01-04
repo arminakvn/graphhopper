@@ -39,8 +39,12 @@ public class FacilitiesOveralDetails extends AbstractPathDetailsBuilder {
 
     @Override
     public boolean isEdgeDifferentToLastEdge(EdgeIteratorState edge) {
+//        if (Math.abs(encoder.getSpeed(edge.getFlags()) - curAvgSpeed) > 0.0001) {
+//            this.curAvgSpeed = this.encoder.getSpeed(edge.getFlags());
+//            return true;
+//        }
 //        String facils = encoder();
-        this.facilitiesOverals = this.encoder.getSurfaceAsString(edge.getFlags()) + " | " + this.encoder.getHighwayAsString(edge);
+        this.facilitiesOverals = this.encoder.getSurfaceAsString(edge.getFlags()) + " | " + this.encoder.getHighwayAsString(edge) + " | "+ this.encoder.getReverseSpeed(edge.getFlags());
         return true;
     }
 

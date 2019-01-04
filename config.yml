@@ -8,7 +8,7 @@ graphhopper:
 
   # Possible options: car,foot,bike,bike2,mtb,racingbike,motorcycle (comma separated)
   # bike2 takes elevation data into account (like up-hill is slower than down-hill) and requires enabling graph.elevation.provider below
-  graph.flag_encoders: mapcrider2|turn_cost=true,racingbike
+  graph.flag_encoders: mapcrider2
 
 
   # Enable turn restrictions for car or motorcycle.
@@ -19,7 +19,7 @@ graphhopper:
 
 
   # To populate your graph with elevation data use SRTM, default is noop (no elevation)
-  graph.elevation.provider: multi
+  graph.elevation.provider: cgiar # multi
 
 
   # default location for cache is /tmp/srtm
