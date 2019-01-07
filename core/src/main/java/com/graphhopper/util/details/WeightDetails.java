@@ -59,16 +59,16 @@ public class WeightDetails extends AbstractPathDetailsBuilder {
 //            edge.getFlags(g)
             long time = weighting.calcMillis(edge, false, -1);
 //            encoder.getLong(fs,)
-            System.out.println("fs   flags value"+ fs );
-            System.out.println("fs   "+ " encoder.getSpeed(fs)  + encoder.getSurfaceAsString(fs): "+ encoder.getSpeed(fs) + encoder.getSurfaceAsString(fs) +"getHighwayAsString:   "  +  encoder.getHighwayAsString(edge));
+            // System.out.println("fs   flags value"+ fs );
+            // System.out.println("fs   "+ " encoder.getSpeed(fs)  + encoder.getSurfaceAsString(fs): "+ encoder.getSpeed(fs) + encoder.getSurfaceAsString(fs) +"getHighwayAsString:   "  +  encoder.getHighwayAsString(edge));
 //            encoder.ge
 //            System.out.println("fs   "+ " flag value for the edge with street name " + stname + " is " + fs + "the surface is" + encoder.getSurfaceAsString(fs)+encoder.getSurface(fs));
-            System.out.println("fs   "+ " distance value for the edge is "+ ds );
+            // System.out.println("fs   "+ " distance value for the edge is "+ ds );
 //            System.out.println("get longs" + encoder.getLong(fs,-1));
 
 //            FlagEncoder f = weighting.getFlagEncoder();
             weight = weighting.calcWeight(edge,false,-1);
-            System.out.println("fs   "+ " weight is calculated for the edge is "+ weight+ " and time is " + time );
+            // System.out.println("fs   "+ " weight is calculated for the edge is "+ weight+ " and time is " + time );
 
 
 //            time = weighting.calcMillis(edge, false, -1);

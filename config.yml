@@ -8,7 +8,7 @@ graphhopper:
 
   # Possible options: car,foot,bike,bike2,mtb,racingbike,motorcycle (comma separated)
   # bike2 takes elevation data into account (like up-hill is slower than down-hill) and requires enabling graph.elevation.provider below
-  graph.flag_encoders: mapcrider2
+  graph.flag_encoders: mapcrider2, racingbike
 
 
   # Enable turn restrictions for car or motorcycle.
@@ -37,30 +37,30 @@ graphhopper:
   # By default the speed mode with the 'fastest' weighting is used. Internally a graph preparation via
   # contraction hierarchies (CH) is done to speed routing up. This requires more RAM/disc space for holding the
   # graph but less for every request. You can also setup multiple weightings, by providing a comma separated list.
-#  prepare.ch.weightings: priority
+  prepare.ch.weightings: fastest
 
-#  prepare.ch.landmarks: 16
+  prepare.ch.landmarks: 64g
   # Disable the speed mode. Should be used only with routing.max_visited_nodes or when the hybrid mode is enabled instead
-  prepare.ch.weightings: no
+#  prepare.ch.weightings: fastest
 
 
   # To make CH preparation faster for multiple flagEncoders you can increase the default threads if you have enough RAM.
   # Change this setting only if you know what you are doing and if the default worked for you.
-#  prepare.ch.threads: 2
+  prepare.ch.threads: 2
 
 
   # The hybrid mode can be enabled with
-  prepare.lm.weightings: fastest
+#  prepare.lm.weightings: fastest
 
   # To tune the performance vs. memory usage for the hybrid mode use
-  prepare.lm.landmarks: 16
+#  prepare.lm.landmarks: 64
 
   # Make landmark preparation parallel if you have enough RAM. Change this only if you know what you are doing and if the default worked for you.
-  prepare.lm.threads: 2
+#  prepare.lm.threads: 2
 
   # avoid being stuck in a (oneway) subnetwork, see https://discuss.graphhopper.com/t/93
-  prepare.min_network_size: 0
-  prepare.min_one_way_network_size: 0
+  prepare.min_network_size: 200
+  prepare.min_one_way_network_size: 200
 
 
 

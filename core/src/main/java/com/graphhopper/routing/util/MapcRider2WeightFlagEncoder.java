@@ -321,9 +321,9 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
     @Override
     public String getSurfaceAsString(long flags) {
         int val = getSurface(flags);
-        System.out.println("Get surface in mapc2  flags"+flags);
-        System.out.println("Get surface in mapc2  val   "+val);
-        System.out.println("surfaceMap: "+surfaceMap.keySet());
+        // System.out.println("Get surface in mapc2  flags"+flags);
+        // System.out.println("Get surface in mapc2  val   "+val);
+        // System.out.println("surfaceMap: "+surfaceMap.keySet());
         for (Map.Entry<String, Integer> e : surfaceMap.entrySet()) {
             if (e.getValue() == val)
                 return e.getKey();
@@ -457,14 +457,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
 
 //        surfaceEncoder.getValue(flags)
 
-        System.out.println("==============================in mapc2 flag encode===============================");
-        System.out.println("flags: "+ flags);
-        System.out.println("surfaceValue:"+ surfaceValue);//flags
-        System.out.println("surfaceEncoder.getBits(): "+ surfaceEncoder.getBits());
-        System.out.println("sValue: "+ surfaceValue);
-        System.out.println("surfaceEncoder.getName(): "+ surfaceEncoder.getName()); //
-        System.out.println("surfaceEncoder.getValue(flags): " + surfaceEncoder.getValue(flags));
-        System.out.println("=============================================================");
+        
         edge.setFlags(flags);
     }
 
@@ -486,7 +479,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         if  ("track".equals(cycleway)){
 //            String foot = way.getTag("foot");
             Boolean hasFoot = way.hasTag("foot");
-            System.out.println("hasFoot   "+hasFoot);
+            // System.out.println("hasFoot   "+hasFoot);
 //            String footway = way.getTag("footway");x
             if(hasFoot){
                 weightToPrioMap.put(34d, PREFER.getValue());

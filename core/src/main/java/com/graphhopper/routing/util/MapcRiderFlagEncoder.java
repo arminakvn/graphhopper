@@ -192,7 +192,7 @@ public class MapcRiderFlagEncoder extends BikeCommonFlagEncoder {
         if  ("track".equals(cycleway)){
 //            String foot = way.getTag("foot");
             Boolean hasFoot = way.hasTag("foot");
-            System.out.println("hasFoot   "+hasFoot);
+            //System.out.println("hasFoot   "+hasFoot);
 //            String footway = way.getTag("footway");x
             if(hasFoot){
                 weightToPrioMap.put(34d, PREFER.getValue());
