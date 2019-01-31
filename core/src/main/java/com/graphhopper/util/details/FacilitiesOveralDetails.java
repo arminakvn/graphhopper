@@ -44,7 +44,7 @@ public class FacilitiesOveralDetails extends AbstractPathDetailsBuilder {
 //            return true;
 //        }
 //        String facils = encoder();
-        this.facilitiesOverals = this.encoder.getSurfaceAsString(edge.getFlags()) + " | " + this.encoder.getHighwayAsString(edge) + " | "+ this.encoder.getReverseSpeed(edge.getFlags());
+        this.facilitiesOverals = this.encoder.getSurfaceAsString(edge.getFlags()) + " | " + this.encoder.getHighwayAsString(edge) + " | "+ this.encoder.getReverseSpeed(edge.getFlags())+ " | " + edge.getDistance() + " | " + this.encoder.getStressAsString(edge.getFlags());
         return true;
     }
 

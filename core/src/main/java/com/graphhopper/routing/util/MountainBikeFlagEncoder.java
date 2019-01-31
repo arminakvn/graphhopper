@@ -169,6 +169,26 @@ public class MountainBikeFlagEncoder extends BikeCommonFlagEncoder {
         return null;
     }
 
+    @Override
+    public String getStressAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public int getStress(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getStress(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getStressAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
 
     @Override
     void collect(ReaderWay way, double wayTypeSpeed, TreeMap<Double, Integer> weightToPrioMap) {

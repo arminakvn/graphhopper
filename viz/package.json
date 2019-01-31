@@ -2,6 +2,11 @@
   "name": "viz",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "serve": "vue serve src/main.js",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "devDependencies": {
     "@vue/cli-plugin-babel": "latest",
     "@vue/cli-plugin-eslint": "latest",

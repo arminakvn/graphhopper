@@ -38,9 +38,11 @@ import static com.graphhopper.util.Helper.keepIn;
 public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
     final Set<String> safeHighwayTags = new HashSet<>();
     protected final Map<String, Integer> surfaceMap = new HashMap<>();
+    protected final Map<String, Integer> stressMap = new HashMap<>();
     protected final Map<String, Integer> highwayMap = new HashMap<>();
     private EncodedDoubleValue reverseSpeedEncoder;
     private EncodedValue surfaceEncoder;
+    private EncodedValue stressEncoder;
     private EncodedValue highwayEncoder;
     private boolean storeSurface = false;
 //
@@ -81,6 +83,13 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         for (String s : surfaceList) {
             surfaceMap.put(s, counter++);
         }
+
+        List<String> stressList = Arrays.asList("_default", "low", "high");
+        counter = 0;
+        for (String srs : stressList) {
+            stressMap.put(srs, counter++);
+        }
+
         avoidHighwayTags.add("trunk");
         avoidHighwayTags.add("trunk_link");
         avoidHighwayTags.add("primary");
@@ -162,7 +171,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         setCyclingNetworkPreference("icn", PriorityCode.BEST.getValue());
         setCyclingNetworkPreference("ncn", PriorityCode.BEST.getValue());
         setCyclingNetworkPreference("rcn", PriorityCode.VERY_NICE.getValue());
-        setCyclingNetworkPreference("lcn", PriorityCode.PREFER.getValue());
+        setCyclingNetworkPreference("lcn", PriorityCode.VERY_NICE.getValue());
         setCyclingNetworkPreference("mtb", PriorityCode.UNCHANGED.getValue());
 
         absoluteBarriers.add("kissing_gate");
@@ -187,6 +196,8 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         highwayEncoder = new EncodedValue("highway", shift, 5, 1, 0, highwayMap.size(), true);
         shift += highwayEncoder.getBits();
         surfaceEncoder = new EncodedValue("surface", shift, 4, 1, 0, surfaceMap.size(), true);
+        shift += surfaceEncoder.getBits();
+        stressEncoder = new EncodedValue("stress_level", shift, 4, 1, 0, stressMap.size(), true);
         shift += surfaceEncoder.getBits();
         return shift;
     }
@@ -315,9 +326,20 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
     }
 
     @Override
+    public int getStress(EdgeIteratorState edge) {
+        return (int) stressEncoder.getValue(edge.getFlags());
+    }
+
+    @Override
     public int getSurface(long flags) {
         return (int) surfaceEncoder.getValue(flags);
     }
+
+    @Override
+    public int getStress(long flags) {
+        return (int) stressEncoder.getValue(flags);
+    }
+
     @Override
     public String getSurfaceAsString(long flags) {
         int val = getSurface(flags);
@@ -327,6 +349,19 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         for (Map.Entry<String, Integer> e : surfaceMap.entrySet()) {
             if (e.getValue() == val)
                 return e.getKey();
+        }
+        return null;
+    }
+
+    @Override
+    public String getStressAsString(long flags) {
+        int val = getStress(flags);
+        // System.out.println("Get surface in mapc2  flags"+flags);
+        // System.out.println("Get surface in mapc2  val   "+val);
+        // System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> es : stressMap.entrySet()) {
+            if (es.getValue() == val)
+                return es.getKey();
         }
         return null;
     }
@@ -343,6 +378,18 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         return null;
     }
 
+
+    @Override
+    public String getStressAsString(EdgeIteratorState edge) {
+        int val = getStress(edge);
+//        System.out.println("Get surface in bike commen flag"+val);
+//        System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> es : stressMap.entrySet()) {
+            if (es.getValue() == val)
+                return es.getKey();
+        }
+        return null;
+    }
 
     @Override
     protected String getPropertiesString() {
@@ -450,7 +497,13 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         if (sValue == null)
             sValue = 0;
         flags = surfaceEncoder.setValue(flags, sValue);
-        // HIGHWAY
+        // stress
+
+        String stressValue = way.getTag("stress_level");
+        Integer strValue = stressMap.get(stressValue);
+        if (strValue == null)
+            strValue = 0;
+        flags = stressEncoder.setValue(flags, strValue);
 
 
 
@@ -505,8 +558,8 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         }
 
 
-        if ("residential".equals(highway)!=true){
-            if  (way.hasTag("cycleway", "no") || way.hasTag("cycleway")!=true){
+        if (!"residential".equals(highway)){
+            if  (way.hasTag("cycleway", "no") || !way.hasTag("cycleway")){
                 weightToPrioMap.put(44d, AVOID_AT_ALL_COSTS.getValue());
 
 

@@ -153,4 +153,14 @@ public interface FlagEncoder extends TurnCostEncoder {
     int getSurface(long flags);
 
     String getSurfaceAsString(EdgeIteratorState edge);
+
+
+
+    String getStressAsString(long flags);
+
+    int getStress(EdgeIteratorState edge);
+
+    int getStress(long flags);
+
+    String getStressAsString(EdgeIteratorState edge);
 }

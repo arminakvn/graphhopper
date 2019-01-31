@@ -8,7 +8,7 @@ graphhopper:
 
   # Possible options: car,foot,bike,bike2,mtb,racingbike,motorcycle (comma separated)
   # bike2 takes elevation data into account (like up-hill is slower than down-hill) and requires enabling graph.elevation.provider below
-  graph.flag_encoders: mapcrider2, racingbike
+  graph.flag_encoders: mapcrider2,racingbike
 
 
   # Enable turn restrictions for car or motorcycle.
@@ -37,11 +37,11 @@ graphhopper:
   # By default the speed mode with the 'fastest' weighting is used. Internally a graph preparation via
   # contraction hierarchies (CH) is done to speed routing up. This requires more RAM/disc space for holding the
   # graph but less for every request. You can also setup multiple weightings, by providing a comma separated list.
-  prepare.ch.weightings: fastest
-
-  prepare.ch.landmarks: 64g
-  # Disable the speed mode. Should be used only with routing.max_visited_nodes or when the hybrid mode is enabled instead
 #  prepare.ch.weightings: fastest
+  prepare.ch.weightings: no
+  # prepare.ch.landmarks: 64
+  # Disable the speed mode. Should be used only with routing.max_visited_nodes or when the hybrid mode is enabled instead
+  # prepare.ch.weightings: fastest
 
 
   # To make CH preparation faster for multiple flagEncoders you can increase the default threads if you have enough RAM.
@@ -50,13 +50,13 @@ graphhopper:
 
 
   # The hybrid mode can be enabled with
-#  prepare.lm.weightings: fastest
+  prepare.lm.weightings: fastest
 
   # To tune the performance vs. memory usage for the hybrid mode use
-#  prepare.lm.landmarks: 64
+  prepare.lm.landmarks: 64
 
   # Make landmark preparation parallel if you have enough RAM. Change this only if you know what you are doing and if the default worked for you.
-#  prepare.lm.threads: 2
+  #  prepare.lm.threads: 2
 
   # avoid being stuck in a (oneway) subnetwork, see https://discuss.graphhopper.com/t/93
   prepare.min_network_size: 200
@@ -102,7 +102,7 @@ graphhopper:
 
 
   # Sort the graph after import to make requests roughly ~10% faster. Note that this requires significantly more RAM on import.
-#  graph.do_sort: true
+  #  graph.do_sort: true
   graph.bytes_for_flags: 8
 
 
@@ -132,13 +132,13 @@ graphhopper:
 # Dropwizard server configuration
 server:
   applicationConnectors:
-  - type: http
-    port: 8989
-    # for security reasons bind to localhost
-    bindHost: localhost
+    - type: http
+      port: 8989
+      # for security reasons bind to localhost
+      bindHost: localhost
   requestLog:
-      appenders: []
+    appenders: []
   adminConnectors:
-  - type: http
-    port: 8990
-    bindHost: localhost
+    - type: http
+      port: 8990
+      bindHost: localhost

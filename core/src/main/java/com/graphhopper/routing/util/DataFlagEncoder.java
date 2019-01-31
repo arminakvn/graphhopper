@@ -608,6 +608,26 @@ public class DataFlagEncoder extends AbstractFlagEncoder {
         return null;
     }
 
+    @Override
+    public String getStressAsString(long flags) {
+        return null;
+    }
+
+    @Override
+    public int getStress(EdgeIteratorState edge) {
+        return 0;
+    }
+
+    @Override
+    public int getStress(long flags) {
+        return 0;
+    }
+
+    @Override
+    public String getStressAsString(EdgeIteratorState edge) {
+        return null;
+    }
+
     public int getTransportMode(EdgeIteratorState edge) {
         return (int) transportModeEncoder.getValue(edge.getFlags());
     }
