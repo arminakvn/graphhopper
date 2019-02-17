@@ -54,7 +54,7 @@ public class PathDetailsBuilderFactory {
             builders.add(new DistanceDetails());
 
         if (requestedPathDetails.contains(WEIGHT_VALUE))
-            builders.add(new WeightDetails(weighting,encoder));
+            builders.add(new WeightDetails(weighting));
 
         if (requestedPathDetails.contains(FACILITIES_OVERAL))
             builders.add(new FacilitiesOveralDetails(encoder));

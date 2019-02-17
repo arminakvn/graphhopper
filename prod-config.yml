@@ -39,7 +39,7 @@ graphhopper:
   # graph but less for every request. You can also setup multiple weightings, by providing a comma separated list.
   prepare.ch.weightings: fastest
   # prepare.ch.weightings: no
-  # prepare.ch.landmarks: 64
+  prepare.ch.landmarks: 64
   # Disable the speed mode. Should be used only with routing.max_visited_nodes or when the hybrid mode is enabled instead
   # prepare.ch.weightings: fastest
 
@@ -102,7 +102,7 @@ graphhopper:
 
 
   # Sort the graph after import to make requests roughly ~10% faster. Note that this requires significantly more RAM on import.
-  #  graph.do_sort: true
+  graph.do_sort: true
   graph.bytes_for_flags: 8
 
 

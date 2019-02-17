@@ -32,32 +32,32 @@ import static com.graphhopper.util.Parameters.DETAILS.WEIGHT_VALUE;
 public class WeightDetails extends AbstractPathDetailsBuilder {
 
     private final Weighting weighting;
-    private final FlagEncoder encoder;
+//    private final FlagEncoder encoder;
 
     private int edgeId = -1;
     private long time = 0;
     private double weight = 0;
 
-    public WeightDetails(Weighting weighting, FlagEncoder encoder) {
+    public WeightDetails(Weighting weighting) {
         super(WEIGHT_VALUE);
         this.weighting = weighting;
-        this.encoder = encoder;
+//        this.encoder = encoder;
     }
 
     @Override
     public boolean isEdgeDifferentToLastEdge(EdgeIteratorState edge) {
         if (edge.getEdge() != edgeId) {
             edgeId = edge.getEdge();
-            long fs = edge.getFlags();
+//            long fs = edge.getFlags();
 
 
 //            encoder.getLong(fs,2);
 
-            String stname = edge.getName();
+//            String stname = edge.getName();
 //            edge./
-            double ds = edge.getDistance();
+//            double ds = edge.getDistance();
 //            edge.getFlags(g)
-            long time = weighting.calcMillis(edge, false, -1);
+//            long time = weighting.calcMillis(edge, false, -1);
 //            encoder.getLong(fs,)
             // System.out.println("fs   flags value"+ fs );
             // System.out.println("fs   "+ " encoder.getSpeed(fs)  + encoder.getSurfaceAsString(fs): "+ encoder.getSpeed(fs) + encoder.getSurfaceAsString(fs) +"getHighwayAsString:   "  +  encoder.getHighwayAsString(edge));

@@ -152,7 +152,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         setHighwaySpeed("track", PUSHING_SECTION_SPEED ); // assume unpaved
         setHighwaySpeed("service", 12);
         setHighwaySpeed("unclassified", 14);
-        setHighwaySpeed("residential", PUSHING_SECTION_SPEED);
+        setHighwaySpeed("residential", 12);
 
         setHighwaySpeed("trunk", 15);
         setHighwaySpeed("trunk_link", 15);
@@ -166,7 +166,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
 //        addPushingSection("path");
         addPushingSection("footway");
         addPushingSection("pedestrian");
-//        addPushingSection("steps");
+        addPushingSection("steps");
 
         setCyclingNetworkPreference("icn", PriorityCode.BEST.getValue());
         setCyclingNetworkPreference("ncn", PriorityCode.BEST.getValue());
@@ -198,7 +198,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
         surfaceEncoder = new EncodedValue("surface", shift, 4, 1, 0, surfaceMap.size(), true);
         shift += surfaceEncoder.getBits();
         stressEncoder = new EncodedValue("stress_level", shift, 4, 1, 0, stressMap.size(), true);
-        shift += surfaceEncoder.getBits();
+        shift += stressEncoder.getBits();
         return shift;
     }
 
@@ -476,10 +476,10 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
                 double speed = getSpeed(flags);
                 double fwdFaster = 1 + 2 * keepIn(fwdDecline, 0, 0.2);
                 fwdFaster = fwdFaster * fwdFaster;
-                double fwdSlower = 1 - 5 * keepIn(fwdIncline, 0, 0.2);
+                double fwdSlower = 1 - 3 * keepIn(fwdIncline, 0, 0.2);
                 fwdSlower = fwdSlower * fwdSlower;
                 speed = speed * (fwdSlower * incDist2DSum + fwdFaster * decDist2DSum + 1 * restDist2D) / fullDist2D;
-                flags = this.setSpeed(flags, keepIn(speed, PUSHING_SECTION_SPEED / 2, maxSpeed));
+                flags = this.setSpeed(flags, keepIn(speed, PUSHING_SECTION_SPEED, maxSpeed));
             }
 
             if (isBackward(flags)) {
@@ -489,7 +489,7 @@ public class MapcRider2WeightFlagEncoder extends BikeCommonFlagEncoder {
                 double bwSlower = 1 - 5 * keepIn(fwdDecline, 0, 0.2);
                 bwSlower = bwSlower * bwSlower;
                 speedReverse = speedReverse * (bwFaster * incDist2DSum + bwSlower * decDist2DSum + 1 * restDist2D) / fullDist2D;
-                flags = this.setReverseSpeed(flags, keepIn(speedReverse, PUSHING_SECTION_SPEED / 2, maxSpeed));
+                flags = this.setReverseSpeed(flags, keepIn(speedReverse, PUSHING_SECTION_SPEED, maxSpeed));
             }
         }
         String surfaceValue = way.getTag("surface");

@@ -42,7 +42,7 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
      * Reports whether this edge is unpaved.
      */
     public static final int K_UNPAVED = 100;
-    protected static final int PUSHING_SECTION_SPEED = 4;
+    protected static final int PUSHING_SECTION_SPEED = 6;
     // Pushing section heighways are parts where you need to get off your bike and push it (German: Schiebestrecke)
     private final Map<String, Integer> surfaceMap = new HashMap<>();
     protected final HashSet<String> pushingSectionsHighways = new HashSet<>();
@@ -219,7 +219,7 @@ abstract public class BikeCommonFlagEncoder extends AbstractFlagEncoder {
         shift = super.defineWayBits(index, shift);
         speedEncoder = new EncodedDoubleValue("Speed", shift, speedBits, speedFactor, highwaySpeeds.get("cycleway"),
                 maxPossibleSpeed);
-        shift += speedEncoder.getBits();
+                    shift += speedEncoder.getBits();
 
         unpavedBit = 1L << shift++;
         // 2 bits

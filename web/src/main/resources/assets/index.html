@@ -27,6 +27,8 @@
         <title>Driving Directions - GraphHopper Maps</title>
         <meta name="description" content="A fast route planner for biking, hiking and more! Based on OpenStreetMap including elevation data. Try out for free!"/>
         <link rel="stylesheet" href="css/leaflet.css?v=1.3.1" />
+        <!--<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />-->
+
         <link rel="stylesheet" href="css/leaflet.elevation-0.0.4.css" />
         <link rel="stylesheet" href="css/leaflet_numbered_markers.css" />
         <link rel="stylesheet" href="css/leaflet.contextmenu.css?v=1.4.0" />
@@ -34,22 +36,30 @@
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui.min.css" />
         <link rel="stylesheet" href="css/flatpickr.min.css?v=4.4.6">
         <script type="text/javascript" src="js/main.js?v=0.11.0"></script>
+
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
+
         <div id="input">
             <div id="input_header">
                 <div id="header_img">
                     <a class="no_link" href="https://graphhopper.com">
-                        <img alt="GraphHopper" src="img/header.png"/>
+                        <img alt="MAPC" src="img/header.png"/>
+
                     </a>
                 </div>
+                <div id="projectinfo">
+                    <h4>Cambridge Grand Junction Pathway</h4>
+                    <p>800 2- Cambridge vision scenario</p>
+                </div>
 
-        <div id="options">
+                <div id="options">
                     <span id="vehicles">
 
                     </span>
-        </div>
+                </div>
+
         <form id="locationform">
             <div class="time_input">
                 <input id="input_date_0" class="flatpickr input_date" type="text" placeholder="Select Date &amp; Time"/>
@@ -60,9 +70,9 @@
             <div class="clear"></div>
             <input id="searchButton" type="submit" value="Search">
         </form>
-        <div id="export-link" class="left"><a href="/maps"><img src='img/link.png'></a></div>
-        <div id="gpxExportButton"><a href=""><img alt="gpx" src='img/gpx.png'></a></div>
-        <div id="hosting">Powered by <a href='https://www.graphhopper.com/products/'>GraphHopper API</a></div>
+        <!--<div id="export-link" class="left"><a href="/maps"><img src='img/link.png'></a></div>-->
+        <!--<div id="gpxExportButton"><a href=""><img alt="gpx" src='img/gpx.png'></a></div>-->
+        <!--<div id="hosting">Powered by <a href='https://www.graphhopper.com/products/'>GraphHopper API</a></div>-->
     </div>
     <div class="clear"></div>
     <div id="info" class="small_text">
@@ -70,8 +80,8 @@
     <div id="error" class="error">
     </div>
 
-    <!--<div id="footer">-->
-        <!--<div id="link_line">-->
+    <div id="footer">
+        <div id="link_line">
             <!--<form id="donate_form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">-->
                 <!--<input type="hidden" name="cmd" value="_s-xclick"/>-->
                 <!--<input type="hidden" name="hosted_button_id" value="P9JQECJKH46JN"/>-->
@@ -80,8 +90,8 @@
             <!--<a class="footer-link" href='https://graphhopper.com/#contact'>Imprint</a>-->
             <!--<a class="footer-link" href='https://graphhopper.com/terms.html'>Terms</a>-->
             <!--<a class="footer-link" href='https://graphhopper.com/privacy.html'>Privacy</a>-->
-        <!--</div>-->
-    <!--</div>-->
+        </div>
+    </div>
 
     <div id="pointTemplate" class="hidden">
         <div id="{id}_Div" class="pointDiv">
@@ -108,29 +118,10 @@
         <br>
     </form>
 </div>
-<div id="map">
-</div>
+        <div id="map">
+        </div>
 <!-- Piwik -->
-<script type="text/javascript">
-            PIWIK = false;
-            if (PIWIK) {
-                var _paq = _paq || [];
-                _paq.push(['trackPageView']);
-                _paq.push(['enableLinkTracking']);
-                (function () {
-                    var url = "https://graphhopper.com/piwik/";
-                    _paq.push(['setTrackerUrl', url + 'piwik.php']);
-                    _paq.push(['setSiteId', 1]);
-                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-                    g.type = 'text/javascript';
-                    g.defer = true;
-                    g.async = true;
-                    g.src = url + 'piwik.js';
-                    s.parentNode.insertBefore(g, s);
-                })();
-            }
 
-</script>
 <noscript><p><img src="https://graphhopper.com/piwik/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
 <!-- End Piwik Code -->
 </body>

@@ -4,6 +4,7 @@ var Flatpickr = require('flatpickr');
 require('flatpickr/dist/l10n');
 
 var L = require('leaflet');
+// global.MapBoxGL = require('mapbox-gl');
 require('leaflet-contextmenu');
 require('leaflet-loading');
 var moment = require('moment');
@@ -129,21 +130,6 @@ $(document).ready(function (e) {
                     return button;
                 }
 
-                function createTitle(vehicle, hide) {
-                    var titlediv = $("<div></div>");
-                    if (hide)
-                        titlediv.hide();
-
-                    // button.attr('id', vehicle);
-                    titlediv.html("<p>"+ translate.tr(vehicle) + "</p>");
-                    // button.click(function () {
-                    //     ghRequest.initVehicle(vehicle);
-                    //     resolveAll();
-                        // routeLatLng(ghRequest);
-                    // });
-                    return titlediv;
-                }
-
                 if (json.features) {
                     ghRequest.features = json.features;
 
@@ -160,13 +146,10 @@ $(document).ready(function (e) {
                     var hiddenVehicles = [];
                     for (var i in vehicles) {
                         var btn = createButton(vehicles[i].toLowerCase(), !showAllVehicles && i > 2);
-                        var tledv = createTitle(vehicles[i].toLowerCase(), !showAllVehicles && i > 2)
                         vehiclesDiv.append(btn);
-                        vehiclesDiv.append(tledv);
 
                         if (i > 2)
                             hiddenVehicles.push(btn);
-                            hiddenVehicles.push(tledv);
                     }
 
                     if (!showAllVehicles && vehicles.length > 3) {
@@ -789,12 +772,16 @@ function mySubmit() {
         ghRequest.from.setStr(fromStr);
         $.when(resolveFrom()).done(function () {
             mapLayer.focus(ghRequest.from, null, 0);
+
         });
         return;
     }
     // route!
     if (inputOk)
         resolveCoords(allStr);
+    $(window).resize(function () {
+        mapLayer.adjustMapSize();
+    });
 }
 
 function isProduction() {

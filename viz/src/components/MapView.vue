@@ -81,7 +81,7 @@
                 // console.log($route.params.route)
 
                 let routeChoice = "home to mapc";
-                let num_of_alterntves = 2;
+                let num_of_alterntves = 1;
                 let encoderFlg = "mapcrider2";
 
 
@@ -101,16 +101,16 @@
                 let files = [];
                 // routesDataMap.set("mapc to neu", "point=42.355278%2C-71.0616&point=42.337207%2C-71.089543");
                 // routesDataMap.set("neu to mapc", "point=42.337207%2C-71.089543&point=42.355278%2C-71.0616");
-                routesDataMap.set("mapc to home", "point=42.355097%2C-71.061361&point=42.318246%2C-71.105052")
-                // routesDataMap.set("home to mapc", "point=42.318246%2C-71.105052&point=42.355097%2C-71.061361")
+                // routesDataMap.set("mapc to home", "point=42.355278%2C-71.0616&point=42.318246%2C-71.105052")
+                // routesDataMap.set("home to mapc", "point=42.318246%2C-71.105052&point=42.355278%2C-71.0616")
                 // routesDataMap.set("home to neu", "point=42.318246%2C-71.105052&point=42.337043%2C-71.089667")
-                routesDataMap.set("mapc to alwife", "point=42.355297%2C-71.061762&point=42.395944%2C-71.139007")
+                // routesDataMap.set("mapc to alwife", "point=42.355297%2C-71.061762&point=42.395944%2C-71.139007")
                 routesDataMap.set("centralsq to govcentr", "point=42.365515%2C-71.103489&point=42.359309%2C-71.059664")
-                routesDataMap.set("packardcrnr to kandalmit", "point=42.352045%2C-71.124788&point=42.362526%2C-71.085679")
+                // routesDataMap.set("packardcrnr to kandalmit", "point=42.352045%2C-71.124788&point=42.362526%2C-71.085679")
                 // if (num_of_alterntves>1)
                 for (let [k,v] of routesDataMap){
                         console.log(k, v)
-                        files.push("http://0.0.0.0:8989/route?"+v+"&ch.disable=false&locale=en-US&vehicle=" + mapdata.get("encoderFlg") + "&weighting=fastest&points_encoded=false&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves + "&elevation=true&use_miles=true$details=distance&details=weight_value&details=street_name&details=edge_id&details=average_speed&details=facilities_overal")
+                        files.push("http://localhost:8989/route?"+v+"&locale=en-US&ch.disable=true&vehicle=" + mapdata.get("encoderFlg") + "&weighting=fastest&points_encoded=false&elevation=true&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value")
                 }
                 // for (let [key, value] of mapdata) {
                 //                 if (num_of_alterntves<2) {
@@ -211,6 +211,7 @@
                         lineScale.domain(dataDomain);
                         console.log("extent",dataDomain);
                         for (let joz = 0; joz < files.length; joz++) {
+
                                 let color = d3.scaleLinear()
                                         .domain([0, files.length])
                                         .range(colors[joz])
@@ -223,12 +224,14 @@
                                                 console.log(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
                                                 temp_inde++
                                         })
-                                        console.log(d[joz]["paths"][i]["details"]["average_speed"]);console.log(d[joz]["paths"][i]["details"]["weight_value"]);
+                                        console.log(d[joz]["paths"][i]["details"]["average_speed"]);
+                                        console.log(d[joz]["paths"][i]["details"]["weight_value"]);
                                         d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
                                                 let event_from_id = event[0];
                                                 let event_to_id = event[1];
                                                 let aver_spd = "sp="
                                                 let foevent = "f="
+                                                
 
                                                 // find the average_speed interval and get the value of that
                                                 // for each interval pair from the average_speeds details check the events from and to id
@@ -266,11 +269,18 @@
                                                 // ancG["geometry"]["coordinates"].push([[fromlon,fromlat],[tolon,tolat]])
                                                 console.log(Math.round(foevent.split(" | ")[3]))
                                                 console.log((weight_val / Math.round(foevent.split(" | ")[3])))
+                                                if (foevent.split(" | ")[4] == "low") {
+                                                        var c = "green"
+                                                } else if (foevent.split(" | ")[4] == "high") {
+                                                        var c = "red"
+                                                } else {
+                                                        var c = "white"
+                                                }
                                                 dateArr.push(
                                                         {
                                                                 'type': 'Feature',
                                                                 'properties': {
-                                                                        'color': color(i),
+                                                                        'color': c,
                                                                         'width': lineScale(weight_val / Math.round(foevent.split(" | ")[3])),
                                                                         'opacity': 0.7,
                                                                         'title': "w=" + Math.round(weight_val)+aver_spd+foevent

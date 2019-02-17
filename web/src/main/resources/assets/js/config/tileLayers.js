@@ -74,22 +74,22 @@ var esriAerial = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/servic
 });
 
 var availableTileLayers = {
-    "Omniscale": omniscale,
-    // "OpenStreetMap": osm,
+    // "Omniscale": omniscale,
+    "OpenStreetMap": osm,
     "Esri Aerial": esriAerial,
     "TF Transport": thunderTransport,
-    "TF Cycle": thunderCycle,
-    "TF Outdoors": thunderOutdoors,
-    "TF Neighbourhood": thunderNeighbourhood,
-    "Lyrk": lyrk,
-    "WanderReitKarte": wrk,
-    "OpenMapSurfer": openMapSurfer,
-    "Sorbian Language": sorbianLang,
-    "OpenStreetMap.de": osmde,
-    'Mapbox tile': mapbox
+    // "TF Cycle": thunderCycle,
+    // "TF Outdoors": thunderOutdoors,
+    // "TF Neighbourhood": thunderNeighbourhood,
+    // "Lyrk": lyrk,
+    // "WanderReitKarte": wrk,
+    // "OpenMapSurfer": openMapSurfer,
+    // "Sorbian Language": sorbianLang,
+    // "OpenStreetMap.de": osmde,
+    'Mapbox Tile': mapbox
 };
 
-module.exports.activeLayerName = "Mapbox tile";
+module.exports.activeLayerName = "Mapbox Tile";
 module.exports.defaultLayer = mapbox;
 
 module.exports.getAvailableTileLayers = function () {

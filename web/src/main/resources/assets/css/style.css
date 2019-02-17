@@ -13,7 +13,7 @@ body {
 
 #input {
     float: left;
-    margin-left: 10px;
+    margin-left: 5px;
     /*padding-right: 15px; */
 }
 
@@ -33,7 +33,7 @@ body {
 
 #input {
     min-height: 300px;
-    max-width: 270px;
+    max-width: 200px;
 }
 
 .instructions_info {
@@ -46,11 +46,11 @@ body {
 }
 
 #input, #instructions, #footer {
-    width: 280px;
+    width: 240px;
 }
 
 .pointInput {
-    width: 215px;
+    width: 140px;
     float: left;
 }
 
@@ -118,8 +118,8 @@ body {
 }
 .pointDiv > img {
     margin-top: 4px;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding-left: 1px;
+    padding-right: 2px;
     float: left;
 }
 .left {
@@ -152,6 +152,11 @@ body {
 .small_text {
     font-size: small;
 }
+#projectinfo {
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
 #options {
     padding-bottom: 10px;
     padding-left: 20px;
@@ -166,12 +171,12 @@ body {
     font-weight: bold;
 }
 #header_img {
-    padding-top: 15px;
-    padding-left: 20px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 5px;
 }
 #header_img img {
-    width: 230px;
+    width: 145px;
 }
 
 #gpx_dialog {

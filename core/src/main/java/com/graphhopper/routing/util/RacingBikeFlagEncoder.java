@@ -20,10 +20,12 @@ package com.graphhopper.routing.util;
 import com.graphhopper.reader.ReaderWay;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
+import com.graphhopper.util.PointList;
 
-import java.util.TreeMap;
+import java.util.*;
 
 import static com.graphhopper.routing.util.PriorityCode.*;
+import static com.graphhopper.util.Helper.keepIn;
 
 /**
  * Specifies the settings for race biking
@@ -33,6 +35,13 @@ import static com.graphhopper.routing.util.PriorityCode.*;
  * @author Peter Karich
  */
 public class RacingBikeFlagEncoder extends BikeCommonFlagEncoder {
+    protected final Map<String, Integer> surfaceMap = new HashMap<>();
+    protected final Map<String, Integer> stressMap = new HashMap<>();
+    protected final Map<String, Integer> highwayMap = new HashMap<>();
+    private EncodedDoubleValue reverseSpeedEncoder;
+    private EncodedValue surfaceEncoder;
+    private EncodedValue stressEncoder;
+    private EncodedValue highwayEncoder;
     public RacingBikeFlagEncoder() {
         this(4, 2, 0);
     }
@@ -53,6 +62,31 @@ public class RacingBikeFlagEncoder extends BikeCommonFlagEncoder {
 
     public RacingBikeFlagEncoder(int speedBits, double speedFactor, int maxTurnCosts) {
         super(speedBits, speedFactor, maxTurnCosts);
+        List<String> highwayList = Arrays.asList(
+                /* reserve index=0 for unset roads (not accessible) */
+                "_default",
+                "motorway", "motorway_link", "motorroad", "trunk", "trunk_link",
+                "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link",
+                "unclassified", "residential", "living_street", "service", "road", "track",
+                "forestry", "cycleway", "steps", "path", "footway", "pedestrian",
+                "ferry", "shuttle_train");
+        int counter = 0;
+        for (String hw : highwayList) {
+            highwayMap.put(hw, counter++);
+        }
+        List<String> surfaceList = Arrays.asList("_default", "asphalt", "unpaved", "paved", "gravel",
+                "ground", "dirt", "grass", "concrete", "paving_stones", "sand", "compacted", "cobblestone", "mud", "ice");
+        counter = 0;
+        for (String s : surfaceList) {
+            surfaceMap.put(s, counter++);
+        }
+
+        List<String> stressList = Arrays.asList("_default", "low", "high");
+        counter = 0;
+        for (String srs : stressList) {
+            stressMap.put(srs, counter++);
+        }
+
         preferHighwayTags.add("road");
         preferHighwayTags.add("secondary");
         preferHighwayTags.add("secondary_link");
@@ -137,50 +171,163 @@ public class RacingBikeFlagEncoder extends BikeCommonFlagEncoder {
     }
 
     @Override
-    public String getSurfaceAsString(long flags) {
-        return null;
+    public int defineWayBits(int index, int shift) {
+        shift = super.defineWayBits(index, shift);
+        reverseSpeedEncoder = new EncodedDoubleValue("Reverse Speed", shift, speedBits, speedFactor,
+                getHighwaySpeed("cycleway"), maxPossibleSpeed);
+        shift += reverseSpeedEncoder.getBits();
+        highwayEncoder = new EncodedValue("highway", shift, 5, 1, 0, highwayMap.size(), true);
+        shift += highwayEncoder.getBits();
+        surfaceEncoder = new EncodedValue("surface", shift, 4, 1, 0, surfaceMap.size(), true);
+        shift += surfaceEncoder.getBits();
+        stressEncoder = new EncodedValue("stress_level", shift, 4, 1, 0, stressMap.size(), true);
+        shift += surfaceEncoder.getBits();
+        return shift;
     }
+
+    public int getHighway(EdgeIteratorState edge) {
+        return (int) highwayEncoder.getValue(edge.getFlags());
+    }
+
+    /**
+     * Do not use within weighting as this is suboptimal from performance point of view.
+     */
 
     @Override
     public String getHighwayAsString(EdgeIteratorState edge) {
+        int val = getHighway(edge);
+        for (Map.Entry<String, Integer> e : highwayMap.entrySet()) {
+            if (e.getValue() == val)
+                return e.getKey();
+        }
         return null;
+    }
+    int getHighwayValue(ReaderWay way) {
+        String highwayValue = way.getTag("highway");
+        Integer hwValue = highwayMap.get(highwayValue);
+        if (way.hasTag("impassable", "yes") || way.hasTag("status", "impassable"))
+            hwValue = 0;
+
+        if (hwValue == null) {
+            hwValue = 0;
+            if (way.hasTag("route", ferries)) {
+                String motorcarTag = way.getTag("motorcar");
+                if (motorcarTag == null)
+                    motorcarTag = way.getTag("motor_vehicle");
+
+                if (motorcarTag == null && !way.hasTag("foot") && !way.hasTag("bicycle")
+                        || "yes".equals(motorcarTag))
+                    hwValue = highwayMap.get("ferry");
+            }
+        }
+        return hwValue;
+    }
+    @Override
+    public int getSurface(EdgeIteratorState edge) {
+        return (int) surfaceEncoder.getValue(edge.getFlags());
     }
 
     @Override
-    public int getSurface(EdgeIteratorState edge) {
-        return 0;
+    public int getStress(EdgeIteratorState edge) {
+        return (int) stressEncoder.getValue(edge.getFlags());
     }
 
     @Override
     public int getSurface(long flags) {
-        return 0;
+        return (int) surfaceEncoder.getValue(flags);
     }
 
     @Override
-    public String getSurfaceAsString(EdgeIteratorState edge) {
+    public int getStress(long flags) {
+        return (int) stressEncoder.getValue(flags);
+    }
+
+    @Override
+    public String getSurfaceAsString(long flags) {
+        int val = getSurface(flags);
+        // System.out.println("Get surface in mapc2  flags"+flags);
+        // System.out.println("Get surface in mapc2  val   "+val);
+        // System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> e : surfaceMap.entrySet()) {
+            if (e.getValue() == val)
+                return e.getKey();
+        }
         return null;
     }
 
     @Override
     public String getStressAsString(long flags) {
+        int val = getStress(flags);
+        // System.out.println("Get surface in mapc2  flags"+flags);
+        // System.out.println("Get surface in mapc2  val   "+val);
+        // System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> es : stressMap.entrySet()) {
+            if (es.getValue() == val)
+                return es.getKey();
+        }
         return null;
     }
 
     @Override
-    public int getStress(EdgeIteratorState edge) {
-        return 0;
+    public String getSurfaceAsString(EdgeIteratorState edge) {
+        int val = getSurface(edge);
+//        System.out.println("Get surface in bike commen flag"+val);
+//        System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> e : surfaceMap.entrySet()) {
+            if (e.getValue() == val)
+                return e.getKey();
+        }
+        return null;
     }
 
-    @Override
-    public int getStress(long flags) {
-        return 0;
-    }
 
     @Override
     public String getStressAsString(EdgeIteratorState edge) {
+        int val = getStress(edge);
+//        System.out.println("Get surface in bike commen flag"+val);
+//        System.out.println("surfaceMap: "+surfaceMap.keySet());
+        for (Map.Entry<String, Integer> es : stressMap.entrySet()) {
+            if (es.getValue() == val)
+                return es.getKey();
+        }
         return null;
     }
 
+    @Override
+    public void applyWayTags(ReaderWay way, EdgeIteratorState edge) {
+        PointList pl = edge.fetchWayGeometry(3);
+        if (!pl.is3D())
+            throw new IllegalStateException("To support speed calculation based on elevation data it is necessary to enable import of it.");
+
+        long flags = edge.getFlags();
+        int hwValue = getHighwayValue(way);
+        // exclude any routing like if you have car and need to exclude all rails or ships
+//        if (hwValue == 0)
+//            return 0;
+        flags = highwayEncoder.setValue(flags, hwValue);
+
+
+        String surfaceValue = way.getTag("surface");
+        Integer sValue = surfaceMap.get(surfaceValue);
+        if (sValue == null)
+            sValue = 0;
+        flags = surfaceEncoder.setValue(flags, sValue);
+        // stress
+
+        String stressValue = way.getTag("stress_level");
+        Integer strValue = stressMap.get(stressValue);
+        if (strValue == null)
+            strValue = 0;
+        flags = stressEncoder.setValue(flags, strValue);
+
+
+
+
+//        surfaceEncoder.getValue(flags)
+
+
+        edge.setFlags(flags);
+    }
 
     @Override
     void collect(ReaderWay way, double wayTypeSpeed, TreeMap<Double, Integer> weightToPrioMap) {

@@ -26,7 +26,7 @@ function adjustMapSize() {
             $("#input").hide();
             map.invalidateSize();
             return;
-         }
+        }
     }
 
     var height = $(window).height();
@@ -153,7 +153,7 @@ function initMap(bounds, setStartCoord, setIntermediateCoord, setEndCoord, selec
     }).addTo(map);
 
     map.fitBounds(new L.LatLngBounds(new L.LatLng(bounds.minLat, bounds.minLon),
-            new L.LatLng(bounds.maxLat, bounds.maxLon)));
+        new L.LatLng(bounds.maxLat, bounds.maxLon)));
 
     //if (isProduction())
     //    map.setView(new L.LatLng(0, 0), 2);
@@ -193,18 +193,20 @@ function initMap(bounds, setStartCoord, setIntermediateCoord, setEndCoord, selec
         },
         contextmenu: true,
         contextmenuItems: defaultContextmenuItems.concat([{
-                text: translate.tr('route'),
-                disabled: true,
-                index: 0
-            }, {
-                text: translate.tr('set_intermediate'),
-                icon: './img/marker-small-blue.png',
-                callback: setIntermediateCoord,
-                index: 1
-            }]),
+            text: translate.tr('route'),
+            disabled: true,
+            index: 0
+        }, {
+            text: translate.tr('set_intermediate'),
+            icon: './img/marker-small-blue.png',
+            callback: setIntermediateCoord,
+            index: 1
+        }]),
         contextmenuInheritItems: false
     };
+
 }
+
 
 function focus(coord, zoom, index) {
     if (coord.lat && coord.lng) {
@@ -267,12 +269,12 @@ module.exports.addElevation = function (geoJsonFeature, useMiles) {
         elevationControl = L.control.elevation({
             position: "bottomright",
             theme: "white-theme", //default: lime-theme
-            width: 250,
-            height: 50,
+            width: 850,
+            height: 60,
             margins: {
-                top: 3,
-                right: 4,
-                bottom: 4,
+                top: 10,
+                right: 40,
+                bottom: 25,
                 left: 40
             },
             useHeightIndicator: true, //if false a marker is drawn at map position
@@ -284,7 +286,7 @@ module.exports.addElevation = function (geoJsonFeature, useMiles) {
             },
             xTicks: undefined, //number of ticks in x axis, calculated by default according to width
             yTicks: undefined, //number of ticks on y axis, calculated by default according to height
-            collapsed: false    //collapsed mode, show chart on click or mouseover
+            collapsed: true    //collapsed mode, show chart on click or mouseover
         });
         elevationControl.addTo(map);
     }
@@ -341,24 +343,24 @@ module.exports.createMarker = function (index, coord, setToEnd, setToStart, dele
         autoPan: true,
         contextmenu: true,
         contextmenuItems: defaultContextmenuItems.concat([{
-                text: translate.tr("marker") + ' ' + ((toFrom === FROM) ?
-                        translate.tr("start_label") : ((toFrom === TO) ?
-                        translate.tr("end_label") : translate.tr("intermediate_label") + ' ' + index)),
-                disabled: true,
-                index: 0
-            }, {
-                text: translate.tr((toFrom !== TO) ? "set_end" : "set_start"),
-                icon: (toFrom !== TO) ? './img/marker-small-red.png' : './img/marker-small-green.png',
-                callback: (toFrom !== TO) ? setToEnd : setToStart,
-                index: 2
-            }, {
-                text: translate.tr("delete_from_route"),
-                callback: deleteCoord,
-                disabled: (toFrom !== -1 && ghRequest.route.size() === 2) ? true : false, // prevent to and from
-                index: 3
-            }]),
+            text: translate.tr("marker") + ' ' + ((toFrom === FROM) ?
+                translate.tr("start_label") : ((toFrom === TO) ?
+                    translate.tr("end_label") : translate.tr("intermediate_label") + ' ' + index)),
+            disabled: true,
+            index: 0
+        }, {
+            text: translate.tr((toFrom !== TO) ? "set_end" : "set_start"),
+            icon: (toFrom !== TO) ? './img/marker-small-red.png' : './img/marker-small-green.png',
+            callback: (toFrom !== TO) ? setToEnd : setToStart,
+            index: 2
+        }, {
+            text: translate.tr("delete_from_route"),
+            callback: deleteCoord,
+            disabled: (toFrom !== -1 && ghRequest.route.size() === 2) ? true : false, // prevent to and from
+            index: 3
+        }]),
         contextmenuInheritItems: false
     }).addTo(routingLayer).bindPopup(((toFrom === FROM) ?
-            translate.tr("start_label") : ((toFrom === TO) ?
+        translate.tr("start_label") : ((toFrom === TO) ?
             translate.tr("end_label") : translate.tr("intermediate_label") + ' ' + index)));
 };
